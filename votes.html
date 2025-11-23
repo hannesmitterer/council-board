@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Council Voting</title>
+</head>
+<body>
+  <h2>Vote on Proposal</h2>
+  
+  <div>
+    <p>Proposal 1: <strong>Approve the new budget for the next fiscal year</strong></p>
+    <button onclick="submitVote('yes')">Approve</button>
+    <button onclick="submitVote('no')">Reject</button>
+  </div>
+  
+  <script>
+    function submitVote(vote) {
+      const user = firebase.auth().currentUser;
+      
+      if (!user) {
+        alert('You must be logged in to vote');
+        return;
+      }
+      
+      // Submit vote to Firestore or Realtime Database
+      const votesRef = firebase.firestore().collection('votes');
+      votesRef.add({
+        proposal: 'Approve the new budget for the next fiscal year',
+        vote: vote,
+        user: user.email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        alert('Your vote has been submitted');
+      })
+      .catch((error) => {
+        console.error('Error submitting vote:', error);
+      });
+    }
+  </script>
+</body>
+</html>
