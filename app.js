@@ -1,3 +1,19 @@
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // User is signed in
+    userName.textContent = user.email;
+    userInfo.style.display = 'block';
+    signInForm.style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+  } else {
+    // No user is signed in
+    userInfo.style.display = 'none';
+    signInForm.style.display = 'block';
+    document.getElementById('dashboard').style.display = 'none';
+  }
+});
+
+
 import firebase from 'firebase/app';
 import 'firebase/auth';  // Import the Firebase Authentication service
 
